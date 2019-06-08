@@ -1,0 +1,22 @@
+sudo: required
+
+language: generic
+
+services:
+  - docker
+
+before_install:
+  - source version.sh
+  - echo $VERSION
+  - docker build -f Dockerfile -t smarthomefans/iobroker --build-arg IOBROKER_VERSION=$VERSION .
+  - docker tag smarthomefans/iobroker smarthomefans/iobroker:$VERSION
+
+script:
+  - docker run -d smarthomefans/iobroker:latest
+  - docker ps | grep latest
+
+after_success:
+  - if [ -n "$TRAVIS_TAG" ]; then
+    docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD";
+    docker push smarthomefans/iobroker;
+    fi

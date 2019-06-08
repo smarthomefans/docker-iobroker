@@ -1,6 +1,6 @@
 FROM debian:latest
 
-ARG IOBROKER_VERSION = "2.0.3"
+ARG IOBROKER_VERSION = 2.0.3
 
 MAINTAINER Andre Germann <https://buanet.de>
 

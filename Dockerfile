@@ -38,6 +38,8 @@ RUN curl -sL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash \
 
 RUN npm config set registry ${REGISTRY}
 
+RUN npm install -g node-gyp && npm install -g homebridge ${EXTRA_HB}
+
 # Generating locales
 RUN sed -i 's/^# *\(zh_CN.UTF-8\)/\1/' /etc/locale.gen \
 	&& sed -i 's/^# *\(en_US.UTF-8\)/\1/' /etc/locale.gen \
@@ -66,7 +68,6 @@ RUN apt-get update \
 
 # Install node-gyp
 WORKDIR /opt/iobroker/
-RUN npm install -g node-gyp && npm install -g homebridge ${EXTRA_HB}
 
 # Backup initial ioBroker-folder
 RUN tar -cf /opt/initial_iobroker.tar /opt/iobroker

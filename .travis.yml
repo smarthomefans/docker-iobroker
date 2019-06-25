@@ -9,7 +9,7 @@ before_install:
   - source version.sh
   - echo $VERSION
   - docker build -t smarthomefans/iobroker --build-arg IOBROKER_VERSION=$VERSION .
-  - docker build -t smarthomefans/iobroker:v10 --build-arg IOBROKER_VERSION=$VERSION NODE_VERSION=10 .
+  - docker build -t smarthomefans/iobroker:v10 --build-arg IOBROKER_VERSION=$VERSION --build-arg NODE_VERSION=10 .
   - docker tag smarthomefans/iobroker smarthomefans/iobroker:$VERSION
   - docker tag smarthomefans/iobroker:v10 smarthomefans/iobroker:$VERSION-v10
 

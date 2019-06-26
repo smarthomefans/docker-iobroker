@@ -1,7 +1,7 @@
 FROM debian:latest
 
 ARG IOBROKER_VERSION="2.0.3"
-ARG NODE_VERSION="8"
+ARG NODE_VERSION="8.16.0"
 ARG EXTRA_HB=""
 ARG REGISTRY="https://registry.npmjs.org"
 
@@ -32,13 +32,19 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Install node8
-RUN curl -sL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash \
+RUN curl -sL https://deb.nodesource.com/setup_8.x | bash \
     && apt-get update && apt-get install -y \
         nodejs \
     && rm -rf /var/lib/apt/lists/*
-
+# change registry
 RUN npm config set registry ${REGISTRY}
 
+# change node version
+RUN npm install -g n && \
+    n ${NODE_VERSION} && \
+    npm install -g npm
+
+# install global deps
 RUN npm install -g node-gyp && npm install -g homebridge ${EXTRA_HB}
 
 # Generating locales

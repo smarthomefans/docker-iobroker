@@ -45,7 +45,7 @@ RUN npm install -g n && \
     npm install -g npm
 
 # install global deps
-RUN npm install -g node-gyp && npm install -g homebridge ${EXTRA_HB}
+RUN npm explore npm -g -- npm install node-gyp@latest && npm install -g homebridge ${EXTRA_HB}
 
 # Generating locales
 RUN sed -i 's/^# *\(zh_CN.UTF-8\)/\1/' /etc/locale.gen \

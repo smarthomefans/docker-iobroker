@@ -35,9 +35,15 @@ RUN curl -sL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash \
     && apt-get update && apt-get install -y \
         nodejs \
     && rm -rf /var/lib/apt/lists/*
-
+# change registry
 RUN npm config set registry ${REGISTRY}
 
+# change node version
+RUN npm install -g n && \
+    n ${NODE_VERSION} && \
+    npm install -g npm
+
+# install global deps
 RUN npm install -g node-gyp && npm install -g homebridge ${EXTRA_HB}
 
 # Generating locales

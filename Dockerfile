@@ -45,10 +45,12 @@ RUN npm install -g n && \
     npm install -g npm@${NPM_VERSION}
 
 # install global deps
-RUN npm install -g node-gyp && \
+RUN npm install -g node-gyp@latest && \
     npm explore npm -g -- npm install node-gyp@latest && \
     which node-gyp && \
-    npm install -g homebridge ${EXTRA_HB}
+    npm install -g homebridge ${EXTRA_HB} \
+    cd /usr/local/lib/node_modules/npm/node_modules/npm-lifecycle && \
+    npm install -g node-gyp@latest
 
 # Generating locales
 RUN sed -i 's/^# *\(zh_CN.UTF-8\)/\1/' /etc/locale.gen \
@@ -56,6 +58,7 @@ RUN sed -i 's/^# *\(zh_CN.UTF-8\)/\1/' /etc/locale.gen \
 	&& locale-gen
 
 # Create scripts directory and copy scripts
+
 RUN mkdir -p /opt/scripts/ \
     && chmod 777 /opt/scripts/
 WORKDIR /opt/scripts/

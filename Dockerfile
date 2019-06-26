@@ -2,6 +2,7 @@ FROM debian:latest
 
 ARG IOBROKER_VERSION="2.0.3"
 ARG NODE_VERSION="8.16.0"
+ARG NPM_VERSION="6.4.1"
 ARG EXTRA_HB=""
 ARG REGISTRY="https://registry.npmjs.org"
 
@@ -42,7 +43,7 @@ RUN npm config set registry ${REGISTRY}
 # change node version
 RUN npm install -g n && \
     n ${NODE_VERSION} && \
-    npm install -g npm
+    npm install -g npm@NPM_VERSION
 
 # install global deps
 RUN npm install -g node-gyp && \

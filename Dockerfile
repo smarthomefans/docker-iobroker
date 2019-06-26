@@ -73,7 +73,7 @@ RUN chmod +x iobroker_startup.sh \
 WORKDIR /
 RUN apt-get update \
     && curl -sL https://raw.githubusercontent.com/ioBroker/ioBroker/stable-installer/installer.sh | \
-    sed -e 's/${INSTALL_TARGET-"iobroker"}/iobroker@${IOBROKER_VERSION}/g' | \
+    sed -e 's/${INSTALL_TARGET-"iobroker"}/winston-syslog@2.1.0 iobroker@${IOBROKER_VERSION}/g' | \
     bash - \
     && echo $(hostname) > /opt/iobroker/.install_host \
     && echo $(hostname) > /opt/.firstrun \

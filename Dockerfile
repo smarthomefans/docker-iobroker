@@ -43,7 +43,7 @@ RUN npm config set registry ${REGISTRY}
 # change node version
 RUN npm install -g n && \
     n ${NODE_VERSION} && \
-    npm install -g npm@NPM_VERSION
+    npm install -g npm@${NPM_VERSION}
 
 # install global deps
 RUN npm install -g node-gyp && \

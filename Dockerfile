@@ -48,9 +48,9 @@ RUN npm install -g n && \
 RUN npm install -g node-gyp@latest && \
     npm explore npm -g -- npm install node-gyp@latest && \
     which node-gyp && \
-    npm install -g homebridge ${EXTRA_HB} \
+    npm install -g homebridge ${EXTRA_HB} && \
     cd /usr/local/lib/node_modules/npm/node_modules/npm-lifecycle && \
-    npm install -g node-gyp@latest
+    npm install node-gyp@latest
 
 # Generating locales
 RUN sed -i 's/^# *\(zh_CN.UTF-8\)/\1/' /etc/locale.gen \

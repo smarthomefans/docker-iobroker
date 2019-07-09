@@ -1,6 +1,10 @@
 FROM debian:latest
 
 ARG IOBROKER_VERSION="2.0.3"
+ARG NODE_VERSION="8.16.0"
+ARG NPM_VERSION="6.4.1"
+ARG EXTRA_HB=""
+ARG REGISTRY="https://registry.npmjs.org"
 
 MAINTAINER Andre Germann <https://buanet.de>
 
@@ -33,6 +37,20 @@ RUN curl -sL https://deb.nodesource.com/setup_8.x | bash \
     && apt-get update && apt-get install -y \
         nodejs \
     && rm -rf /var/lib/apt/lists/*
+# change registry
+RUN npm config set registry ${REGISTRY}
+
+# change node version
+RUN npm install -g n && \
+    n ${NODE_VERSION} && \
+    npm install -g npm@${NPM_VERSION}
+
+# install global deps
+RUN npm install -g node-gyp@latest && \
+    npm explore npm -g -- npm install node-gyp@latest && \
+    which node-gyp && \
+    npm install -g homebridge ${EXTRA_HB} && \
+    npm explore  npm/node_modules/npm-lifecycle -g -- npm install node-gyp@latest 
 
 # Generating locales
 RUN sed -i 's/^# *\(zh_CN.UTF-8\)/\1/' /etc/locale.gen \
@@ -40,6 +58,7 @@ RUN sed -i 's/^# *\(zh_CN.UTF-8\)/\1/' /etc/locale.gen \
 	&& locale-gen
 
 # Create scripts directory and copy scripts
+
 RUN mkdir -p /opt/scripts/ \
     && chmod 777 /opt/scripts/
 WORKDIR /opt/scripts/
@@ -54,7 +73,7 @@ RUN chmod +x iobroker_startup.sh \
 WORKDIR /
 RUN apt-get update \
     && curl -sL https://raw.githubusercontent.com/ioBroker/ioBroker/stable-installer/installer.sh | \
-    sed -e 's/${INSTALL_TARGET-"iobroker"}/iobroker@${IOBROKER_VERSION}/g' | \
+    sed -e 's/${INSTALL_TARGET-"iobroker"}/winston-syslog@2.1.0 iobroker@${IOBROKER_VERSION}/g' | \
     bash - \
     && echo $(hostname) > /opt/iobroker/.install_host \
     && echo $(hostname) > /opt/.firstrun \
@@ -62,7 +81,6 @@ RUN apt-get update \
 
 # Install node-gyp
 WORKDIR /opt/iobroker/
-RUN npm install -g node-gyp
 
 # Backup initial ioBroker-folder
 RUN tar -cf /opt/initial_iobroker.tar /opt/iobroker
@@ -81,6 +99,6 @@ ENV DEBIAN_FRONTEND="teletype" \
 
 # Setting up EXPOSE for Admin
 EXPOSE 8081/tcp	
-	
+
 # Run startup-script
 ENTRYPOINT ["/opt/scripts/iobroker_startup.sh"]

@@ -1,1 +1,1 @@
-export VERSION="3.1.0"
+export VERSION="3.1.2beta"

@@ -27,7 +27,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Install node8
-RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - \
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - \
     && apt-get update && apt-get install -y \
         nodejs npm \
     && rm -rf /var/lib/apt/lists/*
@@ -77,7 +77,9 @@ ENV DEBIAN_FRONTEND="teletype" \
 	LC_ALL="zh_CN.UTF-8" \
 	TZ="Asia/Shanghai" \
 	PACKAGES="" \
-	AVAHI="false"
+	AVAHI="false" \
+    HOSTUID=1000  \
+    HOSTGID=1000
 
 # Setting up EXPOSE for Admin
 EXPOSE 8081/tcp	

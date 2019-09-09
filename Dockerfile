@@ -1,7 +1,5 @@
 FROM debian:stretch
 
-ARG IOBROKER_VERSION="2.0.3"
-
 MAINTAINER Andre Germann <https://buanet.de>
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -53,7 +51,6 @@ RUN chmod +x iobroker_startup.sh \
 WORKDIR /
 RUN apt-get update \
     && curl -sL https://raw.githubusercontent.com/ioBroker/ioBroker/stable-installer/installer.sh | \
-    sed -e 's/${INSTALL_TARGET-"iobroker"}/iobroker@${IOBROKER_VERSION}/g' | \
     bash - \
     && echo $(hostname) > /opt/iobroker/.install_host \
     && echo $(hostname) > /opt/.firstrun \

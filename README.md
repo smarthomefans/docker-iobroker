@@ -1,3 +1,6 @@
+# QQ 群
+欢迎加入ioBroker交流，群聊号码：776817275
+
 # docker-iobroker
 Docker image for ioBroker (http://iobroker.net) based on debian:stretch (http://hub.docker.com/_/debian/)
 

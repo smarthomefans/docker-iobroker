@@ -31,6 +31,9 @@ RUN curl -sL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash \
         nodejs \
     && rm -rf /var/lib/apt/lists/*
 
+# show node and npm version
+RUN node -v && npm -v
+
 # Generating locales
 RUN sed -i 's/^# *\(zh_CN.UTF-8\)/\1/' /etc/locale.gen \
 	&& sed -i 's/^# *\(en_US.UTF-8\)/\1/' /etc/locale.gen \

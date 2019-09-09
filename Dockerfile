@@ -28,7 +28,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
 # Install node8
 RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - \
     && apt-get update && apt-get install -y \
-        nodejs npm \
+        nodejs \
     && rm -rf /var/lib/apt/lists/*
 
 # show node and npm version

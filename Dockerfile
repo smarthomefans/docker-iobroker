@@ -54,9 +54,9 @@ RUN chmod +x iobroker_startup.sh \
 WORKDIR /
 RUN apt-get update \
     && curl -sL https://raw.githubusercontent.com/ioBroker/ioBroker/stable-installer/installer.sh | \
+    bash - \
     && cd /opt/iobroker \
     && npm install ioBroker/ioBroker.js-controller \
-    bash - \
     && echo $(hostname) > /opt/iobroker/.install_host \
     && echo $(hostname) > /opt/.firstrun \
     && rm -rf /var/lib/apt/lists/*

@@ -1,1 +1,1 @@
-export VERSION="3.1.2beta"
+export VERSION="3.1.2-js2.0.x"

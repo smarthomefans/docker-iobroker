@@ -9,7 +9,7 @@ before_install:
   - source version.sh
   - echo $VERSION
   - docker build -t smarthomefans/iobroker .
-  - docker build -t smarthomefans/iobroker:taobao  --build-arg MIRROR=Taobao.
+  - docker build -t smarthomefans/iobroker:taobao  --build-arg MIRROR=Taobao .
   - docker tag smarthomefans/iobroker smarthomefans/iobroker:$VERSION
   - docker tag smarthomefans/iobroker:taobao smarthomefans/iobroker:taobao-$VERSION
   # - docker build -t smarthomefans/iobroker:v10 --build-arg IOBROKER_VERSION=$VERSION --build-arg NODE_VERSION=10.3.0  .

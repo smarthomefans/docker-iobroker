@@ -198,7 +198,7 @@ fi
 
 # Checking ENV for AVAHI
 if [ "$avahi" = "true" ]
-then
+th
   echo "Avahi-daemon is activated by ENV."
   chmod 764 /opt/scripts/setup_avahi.sh
   sh /opt/scripts/setup_avahi.sh
@@ -233,22 +233,23 @@ then
 fi
 
 # Checking ENV for REDIS
-if [ "$redis" != "false" ]
-then
-  echo "Connection to Redis is configured by ENV."
-  echo "Installing prerequisites..."
-  apt-get update 2>&1> /dev/null && apt-get install -y jq 2>&1> /dev/null && rm -rf /var/lib/apt/lists/* 2>&1> /dev/null
-  redisserver=$(echo $redis | sed -E  's/(.*):(.*)/\1/')
-  redisport=$(echo $redis | sed -E  's/(.*):(.*)/\2/')
-  echo "Setting configuration for Redis (Server: "$redisserver", Port: "$redisport") in ioBroker..."
-  cd /opt/iobroker/iobroker-data
-  jq --arg redisserver "$redisserver" --arg redisport "$redisport" '.states.type = "redis" | .states.host = $redisserver | .states.port = $redisport' iobroker.json > iobroker.json.tmp && mv iobroker.json.tmp iobroker.json
-  cd /opt/iobroker
-  echo "Done."
-  echo ' '
-fi
+# has error
+# if [ "$redis" != "false" ]
+# then
+#   echo "Connection to Redis is configured by ENV."
+#   echo "Installing prerequisites..."
+#   apt-get update 2>&1> /dev/null && apt-get install -y jq 2>&1> /dev/null && rm -rf /var/lib/apt/lists/* 2>&1> /dev/null
+#   redisserver=$(echo $redis | sed -E  's/(.*):(.*)/\1/')
+#   redisport=$(echo $redis | sed -E  's/(.*):(.*)/\2/')
+#   echo "Setting configuration for Redis (Server: "$redisserver", Port: "$redisport") in ioBroker..."
+#   cd /opt/iobroker/iobroker-data
+#   jq --arg redisserver "$redisserver" --arg redisport "$redisport" '.states.type = "redis" | .states.host = $redisserver | .states.port = $redisport' iobroker.json > iobroker.json.tmp && mv iobroker.json.tmp iobroker.json
+#   cd /opt/iobroker
+#   echo "Done."
+#   echo ' '
+# fi
 
-sleep 5
+# sleep 5
 
 
 #####

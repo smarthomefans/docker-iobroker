@@ -1,5 +1,7 @@
 FROM debian:latest
 
+ARG MIRROR=""
+
 MAINTAINER Andre Germann <https://buanet.de>
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -61,7 +63,7 @@ RUN chmod +x iobroker_startup.sh \
 # Install ioBroker
 WORKDIR /
 RUN apt-get update \
-    && curl -sL https://raw.githubusercontent.com/ioBroker/ioBroker/stable-installer/installer.sh | \
+    && MIRROR=${MIRROR} curl -sL https://raw.githubusercontent.com/ioBroker/ioBroker/stable-installer/installer.sh | \
     bash - \
     && echo $(hostname) > /opt/iobroker/.install_host \
     && echo $(hostname) > /opt/.firstrun \

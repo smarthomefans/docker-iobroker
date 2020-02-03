@@ -87,6 +87,7 @@ ENV DEBIAN_FRONTEND="teletype" \
 	LC_ALL="zh_CN.UTF-8" \
 	TZ="Asia/Shanghai" \
 	PACKAGES="" \
+    REDIS="false" \
 	AVAHI="false" \
     SETUID=1000  \
     SETGID=1000  \

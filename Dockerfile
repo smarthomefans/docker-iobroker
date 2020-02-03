@@ -1,4 +1,4 @@
-FROM debian:latest
+FROM debian:stretch
 
 ARG MIRROR=""
 
@@ -6,8 +6,8 @@ MAINTAINER Andre Germann <https://buanet.de>
 
 ENV DEBIAN_FRONTEND noninteractive
 
-# Install prerequisites
-RUN apt-get update && apt-get upgrade -y && apt-get install -y \
+# Install prerequisites (as listed in iobroker installer.sh)
+RUN apt-get update && apt-get install -y \
         acl \
         apt-utils \
         build-essential \

@@ -24,9 +24,12 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
         wget \
         nano \
         ffmpeg \
+        python-dev \
+        sudo \
+        udev \
     && rm -rf /var/lib/apt/lists/*
 
-# Install node8
+# Install node10
 RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - \
     && apt-get update && apt-get install -y \
         nodejs \
@@ -34,6 +37,9 @@ RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - \
 
 # show node and npm version
 RUN node -v && npm -v
+
+# Install node-gyp
+RUN npm install -g node-gyp
 
 # Generating locales
 RUN sed -i 's/^# *\(zh_CN.UTF-8\)/\1/' /etc/locale.gen \
@@ -47,6 +53,7 @@ WORKDIR /opt/scripts/
 COPY scripts/iobroker_startup.sh iobroker_startup.sh
 COPY scripts/setup_avahi.sh setup_avahi.sh
 COPY scripts/setup_packages.sh setup_packages.sh
+COPY scripts/setup_zwave.sh setup_zwave.sh
 RUN chmod +x iobroker_startup.sh \
 	&& chmod +x setup_avahi.sh \
     && chmod +x setup_packages.sh
@@ -60,15 +67,16 @@ RUN apt-get update \
     && echo $(hostname) > /opt/.firstrun \
     && rm -rf /var/lib/apt/lists/*
 
-# Install node-gyp
+
 WORKDIR /opt/iobroker/
-RUN npm install -g node-gyp
+
 
 # Backup initial ioBroker-folder
 RUN tar -cf /opt/initial_iobroker.tar /opt/iobroker
 
-# Setting up iobroker-user
-RUN chsh -s /bin/bash iobroker
+# Setting up iobroker-user (shell and home directory)
+RUN chsh -s /bin/bash iobroker \
+    && usermod --home /opt/iobroker iobroker
 
 # Setting up ENVs
 ENV DEBIAN_FRONTEND="teletype" \
@@ -78,8 +86,11 @@ ENV DEBIAN_FRONTEND="teletype" \
 	TZ="Asia/Shanghai" \
 	PACKAGES="" \
 	AVAHI="false" \
-    HOSTUID=1000  \
-    HOSTGID=1000
+    SETUID=1000  \
+    SETUID=1000  \
+	USBDEVICES="none" \
+    ZWAVE="false"  \
+    ADMINPORT=8081
 
 # Setting up EXPOSE for Admin
 EXPOSE 8081/tcp	
